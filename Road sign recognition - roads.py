@@ -48,7 +48,7 @@ while success and not clicked:
 
             dominant_color = get_dominant_color(square, 2)
             if dominant_color[2] > 100:.
-                print("STOP")
+                print("BEHAJTANI TILOS!")
             elif dominant_color[0] > 80:
                 zone_0 = square[square.shape[0]*3//8:square.shape[0]
                                 * 5//8, square.shape[1]*1//8:square.shape[1]*3//8]
@@ -64,16 +64,16 @@ while success and not clicked:
 
                 if zone_1_color[2] < 60:
                     if sum(zone_0_color) > sum(zone_2_color):
-                        print("LEFT")
+                        print("KÖTELEZŐ HALADÁSI IRÁNY BALRA")
                     else:
-                        print("RIGHT")
+                        print("KÖTELEZŐ HALADÁSI IRÁNY JOBBRA")
                 else:
                     if sum(zone_1_color) > sum(zone_0_color) and sum(zone_1_color) > sum(zone_2_color):
-                        print("FORWARD")
+                        print("KÖTELEZŐ HALADÁSI IRÁNY ELŐRE")
                     elif sum(zone_0_color) > sum(zone_2_color):
-                        print("FORWARD AND LEFT")
+                        print("KÖTELEZŐ HALADÁSI IRÁNY ELŐRE ÉS BALRA")
                     else:
-                        print("FORWARD AND RIGHT")
+                        print("KÖTELEZŐ HALADÁSI IRÁNY ELŐRE ÉS JOBBRA")
             else:
                 print("N/A")
 
