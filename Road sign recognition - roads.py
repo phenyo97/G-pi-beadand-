@@ -75,7 +75,7 @@ while success and not clicked:
                     else:
                         print("KÖTELEZŐ HALADÁSI IRÁNY ELŐRE ÉS JOBBRA")
             else:
-                print("N/A")
+                print("NA")
 
         for i in circles[0, :]:
             cv2.circle(frame, (i[0], i[1]), i[2], (0, 255, 0), 2)
