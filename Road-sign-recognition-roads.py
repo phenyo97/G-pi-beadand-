@@ -24,53 +24,32 @@ cameraCapture = cv2.VideoCapture(0)
 cv2.namedWindow('camera')
 cv2.setMouseCallback('camera', onMouse)
 
-# Read and process frames in loop
+
 success, frame = cameraCapture.read()
 while success and not clicked:
     cv2.waitKey(1)
     success, frame = cameraCapture.read()
 
-    # Conversion to gray is required to speed up calculations, we would detect
-    # the same circles in BGR and GRAY anyways.
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    # Then we blur the entire frame to prevent accidental false circle
-    # detections
     img = cv2.medianBlur(gray, 37)
-    # Finally, OpenCV built-in algorithm searching for circles. Arguments are a
-    # bit tricky. The most useful are minDist (equals to 50 in this example)
-    # and param{1,2}. First one represents distance between centers of detected
-    # circles so we never have multiple circles in one place. However,
-    # increasing this parameter too much may prevent detection of some circles.
-    # Increasing param1 increases count of detected circles. Increasing param2
-    # drops more false circles.
     circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT,
                               1, 50, param1=120, param2=40)
 
     if not circles is None:
         circles = np.uint16(np.around(circles))
-        # Filter the biggest circle, we don't want far signs to be detected
-        # instead of close ones.
         max_r, max_i = 0, 0
         for i in range(len(circles[:, :, 2][0])):
             if circles[:, :, 2][0][i] > 50 and circles[:, :, 2][0][i] > max_r:
                 max_i = i
                 max_r = circles[:, :, 2][0][i]
         x, y, r = circles[:, :, :][0][max_i]
-        # This check prevents program crash when trying to index list out of
-        # its range. We actually cut a square with the whole circle inside.
         if y > r and x > r:
             square = frame[y-r:y+r, x-r:x+r]
 
             dominant_color = get_dominant_color(square, 2)
-            if dominant_color[2] > 100:
-                # Stop sign is red, so we check if there is a lot of red color
-                # in circle.
+            if dominant_color[2] > 100:.
                 print("STOP")
             elif dominant_color[0] > 80:
-                # Other signs are blue.
-
-                # Here we cut 3 zones from the circle, then count their
-                # dominant color and finally compare.
                 zone_0 = square[square.shape[0]*3//8:square.shape[0]
                                 * 5//8, square.shape[1]*1//8:square.shape[1]*3//8]
                 zone_0_color = get_dominant_color(zone_0, 1)
@@ -98,7 +77,6 @@ while success and not clicked:
             else:
                 print("N/A")
 
-        # Draw all detected circles on the screen
         for i in circles[0, :]:
             cv2.circle(frame, (i[0], i[1]), i[2], (0, 255, 0), 2)
             cv2.circle(frame, (i[0], i[1]), 2, (0, 0, 255), 3)
